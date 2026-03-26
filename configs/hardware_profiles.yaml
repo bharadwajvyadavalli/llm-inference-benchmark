@@ -1,0 +1,190 @@
+# Hardware Profiles
+# GPU specifications for performance normalization and analysis
+
+gpus:
+  # NVIDIA Data Center GPUs
+  a100_40gb:
+    name: "NVIDIA A100 40GB"
+    memory_gb: 40
+    memory_bandwidth_gbps: 1555
+    fp16_tflops: 312
+    fp32_tflops: 156
+    tensor_cores: true
+    tensor_core_tflops_fp16: 312
+    architecture: "ampere"
+    compute_capability: "8.0"
+    tdp_watts: 400
+    pcie_gen: 4
+    nvlink: true
+    nvlink_bandwidth_gbps: 600
+
+  a100_80gb:
+    name: "NVIDIA A100 80GB"
+    memory_gb: 80
+    memory_bandwidth_gbps: 2039
+    fp16_tflops: 312
+    fp32_tflops: 156
+    tensor_cores: true
+    tensor_core_tflops_fp16: 312
+    architecture: "ampere"
+    compute_capability: "8.0"
+    tdp_watts: 400
+    pcie_gen: 4
+    nvlink: true
+    nvlink_bandwidth_gbps: 600
+
+  h100_80gb:
+    name: "NVIDIA H100 80GB"
+    memory_gb: 80
+    memory_bandwidth_gbps: 3350
+    fp16_tflops: 989
+    fp32_tflops: 494
+    tensor_cores: true
+    tensor_core_tflops_fp16: 1979
+    architecture: "hopper"
+    compute_capability: "9.0"
+    tdp_watts: 700
+    pcie_gen: 5
+    nvlink: true
+    nvlink_bandwidth_gbps: 900
+
+  h100_sxm:
+    name: "NVIDIA H100 SXM"
+    memory_gb: 80
+    memory_bandwidth_gbps: 3350
+    fp16_tflops: 989
+    fp32_tflops: 494
+    tensor_cores: true
+    tensor_core_tflops_fp16: 1979
+    architecture: "hopper"
+    compute_capability: "9.0"
+    tdp_watts: 700
+    pcie_gen: 5
+    nvlink: true
+    nvlink_bandwidth_gbps: 900
+
+  # NVIDIA Consumer GPUs
+  rtx_4090:
+    name: "NVIDIA RTX 4090"
+    memory_gb: 24
+    memory_bandwidth_gbps: 1008
+    fp16_tflops: 165
+    fp32_tflops: 82.6
+    tensor_cores: true
+    tensor_core_tflops_fp16: 330
+    architecture: "ada_lovelace"
+    compute_capability: "8.9"
+    tdp_watts: 450
+    pcie_gen: 4
+    nvlink: false
+    nvlink_bandwidth_gbps: 0
+
+  rtx_4080:
+    name: "NVIDIA RTX 4080"
+    memory_gb: 16
+    memory_bandwidth_gbps: 717
+    fp16_tflops: 97
+    fp32_tflops: 48.7
+    tensor_cores: true
+    tensor_core_tflops_fp16: 194
+    architecture: "ada_lovelace"
+    compute_capability: "8.9"
+    tdp_watts: 320
+    pcie_gen: 4
+    nvlink: false
+    nvlink_bandwidth_gbps: 0
+
+  rtx_3090:
+    name: "NVIDIA RTX 3090"
+    memory_gb: 24
+    memory_bandwidth_gbps: 936
+    fp16_tflops: 71
+    fp32_tflops: 35.6
+    tensor_cores: true
+    tensor_core_tflops_fp16: 142
+    architecture: "ampere"
+    compute_capability: "8.6"
+    tdp_watts: 350
+    pcie_gen: 4
+    nvlink: true
+    nvlink_bandwidth_gbps: 112
+
+  rtx_3080:
+    name: "NVIDIA RTX 3080"
+    memory_gb: 10
+    memory_bandwidth_gbps: 760
+    fp16_tflops: 59.5
+    fp32_tflops: 29.8
+    tensor_cores: true
+    tensor_core_tflops_fp16: 119
+    architecture: "ampere"
+    compute_capability: "8.6"
+    tdp_watts: 320
+    pcie_gen: 4
+    nvlink: false
+    nvlink_bandwidth_gbps: 0
+
+  # NVIDIA Older Data Center GPUs
+  v100_16gb:
+    name: "NVIDIA V100 16GB"
+    memory_gb: 16
+    memory_bandwidth_gbps: 900
+    fp16_tflops: 125
+    fp32_tflops: 15.7
+    tensor_cores: true
+    tensor_core_tflops_fp16: 125
+    architecture: "volta"
+    compute_capability: "7.0"
+    tdp_watts: 300
+    pcie_gen: 3
+    nvlink: true
+    nvlink_bandwidth_gbps: 300
+
+  v100_32gb:
+    name: "NVIDIA V100 32GB"
+    memory_gb: 32
+    memory_bandwidth_gbps: 900
+    fp16_tflops: 125
+    fp32_tflops: 15.7
+    tensor_cores: true
+    tensor_core_tflops_fp16: 125
+    architecture: "volta"
+    compute_capability: "7.0"
+    tdp_watts: 300
+    pcie_gen: 3
+    nvlink: true
+    nvlink_bandwidth_gbps: 300
+
+# Normalization baseline (all results can be normalized to this)
+normalization_baseline: a100_80gb
+
+# Performance tier classification
+tiers:
+  enterprise:
+    - h100_80gb
+    - h100_sxm
+    - a100_80gb
+    - a100_40gb
+  prosumer:
+    - rtx_4090
+    - rtx_3090
+    - v100_32gb
+    - v100_16gb
+  consumer:
+    - rtx_4080
+    - rtx_3080
+
+# Common multi-GPU configurations
+multi_gpu_configs:
+  2x_a100:
+    gpus: [a100_80gb, a100_80gb]
+    interconnect: nvlink
+    total_memory_gb: 160
+  4x_a100:
+    gpus: [a100_80gb, a100_80gb, a100_80gb, a100_80gb]
+    interconnect: nvlink
+    total_memory_gb: 320
+  8x_h100:
+    gpus: [h100_sxm, h100_sxm, h100_sxm, h100_sxm, h100_sxm, h100_sxm, h100_sxm, h100_sxm]
+    interconnect: nvlink
+    total_memory_gb: 640

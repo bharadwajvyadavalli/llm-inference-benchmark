@@ -1,0 +1,69 @@
+# Global Benchmark Configuration
+
+# Benchmark execution settings
+warmup_runs: 3
+measurement_runs: 10
+save_intermediate: true
+
+# Output settings
+output_dir: "results"
+report_dir: "reports"
+
+# Reproducibility
+random_seed: 42
+
+# GPU cost estimation ($/GPU-hour)
+# Common GPU rental rates (adjust based on your provider)
+gpu_costs:
+  a100_40gb: 3.00
+  a100_80gb: 4.50
+  h100_80gb: 8.00
+  rtx_4090: 1.50
+  rtx_3090: 0.80
+  v100_16gb: 1.20
+  default: 2.00
+
+# Default generation parameters
+generation:
+  max_new_tokens: 256
+  temperature: 0.7
+  top_p: 0.9
+  do_sample: true
+
+# Profiling settings
+profiling:
+  enabled: true
+  memory_tracking: true
+  power_tracking: true
+  utilization_tracking: true
+  sampling_interval_ms: 100
+
+# Workload defaults
+workloads:
+  short_prompt:
+    num_samples: 100
+    min_output_tokens: 50
+    max_output_tokens: 100
+  long_context:
+    num_samples: 50
+    min_context_length: 4096
+    max_context_length: 16384
+    min_output_tokens: 200
+    max_output_tokens: 500
+  batch:
+    batch_sizes: [1, 4, 8, 16, 32, 64]
+  multi_turn:
+    num_conversations: 30
+    turns_per_conversation: 5
+
+# Timeout settings (seconds)
+timeouts:
+  model_load: 600
+  single_inference: 300
+  batch_inference: 600
+
+# Logging
+logging:
+  level: INFO
+  file: "benchmark.log"
+  console: true

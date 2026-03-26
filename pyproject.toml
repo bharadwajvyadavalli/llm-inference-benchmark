@@ -1,0 +1,110 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-inference-benchmark"
+version = "0.1.0"
+description = "Comprehensive benchmarking suite for LLM serving and inference optimization strategies"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [
+    { name = "LLM Inference Benchmark Team" }
+]
+keywords = [
+    "llm",
+    "inference",
+    "benchmark",
+    "optimization",
+    "vllm",
+    "transformers",
+    "quantization",
+    "speculative-decoding",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.35.0",
+    "vllm>=0.2.0",
+    "bitsandbytes>=0.41.0",
+    "auto-gptq>=0.5.0",
+    "autoawq>=0.1.0",
+    "accelerate>=0.24.0",
+    "datasets>=2.14.0",
+    "pynvml>=11.5.0",
+    "matplotlib>=3.7.0",
+    "plotly>=5.18.0",
+    "seaborn>=0.13.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "black>=23.10.0",
+    "mypy>=1.6.0",
+]
+tgi = [
+    "text-generation>=0.6.0",
+]
+notebooks = [
+    "jupyter>=1.0.0",
+    "ipywidgets>=8.1.0",
+]
+all = [
+    "llm-inference-benchmark[dev,tgi,notebooks]",
+]
+
+[project.scripts]
+llm-bench = "scripts.run_benchmark:main"
+llm-bench-single = "scripts.run_single_strategy:main"
+llm-bench-compare = "scripts.compare_strategies:main"
+llm-bench-report = "scripts.generate_report:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/llm-inference-benchmark"
+Repository = "https://github.com/yourusername/llm-inference-benchmark"
+Issues = "https://github.com/yourusername/llm-inference-benchmark/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["benchmark", "strategies", "metrics", "analysis", "serving", "scripts"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v --tb=short"

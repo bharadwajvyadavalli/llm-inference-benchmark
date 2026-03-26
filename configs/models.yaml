@@ -1,0 +1,168 @@
+# Model Registry
+# Defines all models available for benchmarking
+
+models:
+  # Llama 2 Family
+  llama-2-7b:
+    name: "Llama-2-7B"
+    hf_path: "meta-llama/Llama-2-7b-hf"
+    family: "llama"
+    size_params: 7_000_000_000
+    context_length: 4096
+    architecture: "llama"
+    attention_type: "mha"
+    num_heads: 32
+    num_kv_heads: 32
+    hidden_size: 4096
+    num_layers: 32
+    default_generation:
+      max_new_tokens: 256
+      temperature: 0.7
+
+  llama-2-13b:
+    name: "Llama-2-13B"
+    hf_path: "meta-llama/Llama-2-13b-hf"
+    family: "llama"
+    size_params: 13_000_000_000
+    context_length: 4096
+    architecture: "llama"
+    attention_type: "mha"
+    num_heads: 40
+    num_kv_heads: 40
+    hidden_size: 5120
+    num_layers: 40
+    default_generation:
+      max_new_tokens: 256
+      temperature: 0.7
+
+  # Mistral Family
+  mistral-7b:
+    name: "Mistral-7B"
+    hf_path: "mistralai/Mistral-7B-v0.1"
+    family: "mistral"
+    size_params: 7_000_000_000
+    context_length: 8192
+    architecture: "mistral"
+    attention_type: "gqa"
+    num_heads: 32
+    num_kv_heads: 8
+    hidden_size: 4096
+    num_layers: 32
+    sliding_window: 4096
+    default_generation:
+      max_new_tokens: 256
+      temperature: 0.7
+
+  # Pythia Family (for scaling experiments)
+  pythia-70m:
+    name: "Pythia-70M"
+    hf_path: "EleutherAI/pythia-70m"
+    family: "pythia"
+    size_params: 70_000_000
+    context_length: 2048
+    architecture: "gpt-neox"
+    attention_type: "mha"
+    num_heads: 8
+    num_kv_heads: 8
+    hidden_size: 512
+    num_layers: 6
+    default_generation:
+      max_new_tokens: 128
+      temperature: 0.7
+
+  pythia-160m:
+    name: "Pythia-160M"
+    hf_path: "EleutherAI/pythia-160m"
+    family: "pythia"
+    size_params: 160_000_000
+    context_length: 2048
+    architecture: "gpt-neox"
+    attention_type: "mha"
+    num_heads: 12
+    num_kv_heads: 12
+    hidden_size: 768
+    num_layers: 12
+    default_generation:
+      max_new_tokens: 128
+      temperature: 0.7
+
+  pythia-410m:
+    name: "Pythia-410M"
+    hf_path: "EleutherAI/pythia-410m"
+    family: "pythia"
+    size_params: 410_000_000
+    context_length: 2048
+    architecture: "gpt-neox"
+    attention_type: "mha"
+    num_heads: 16
+    num_kv_heads: 16
+    hidden_size: 1024
+    num_layers: 24
+    default_generation:
+      max_new_tokens: 128
+      temperature: 0.7
+
+  pythia-1b:
+    name: "Pythia-1B"
+    hf_path: "EleutherAI/pythia-1b"
+    family: "pythia"
+    size_params: 1_000_000_000
+    context_length: 2048
+    architecture: "gpt-neox"
+    attention_type: "mha"
+    num_heads: 16
+    num_kv_heads: 16
+    hidden_size: 2048
+    num_layers: 16
+    default_generation:
+      max_new_tokens: 128
+      temperature: 0.7
+
+  # Phi Family
+  phi-2:
+    name: "Phi-2"
+    hf_path: "microsoft/phi-2"
+    family: "phi"
+    size_params: 2_700_000_000
+    context_length: 2048
+    architecture: "phi"
+    attention_type: "mha"
+    num_heads: 32
+    num_kv_heads: 32
+    hidden_size: 2560
+    num_layers: 32
+    default_generation:
+      max_new_tokens: 256
+      temperature: 0.7
+
+# Model groups for batch benchmarking
+model_groups:
+  small:
+    - pythia-70m
+    - pythia-160m
+  medium:
+    - pythia-410m
+    - pythia-1b
+    - phi-2
+  large:
+    - llama-2-7b
+    - mistral-7b
+  xlarge:
+    - llama-2-13b
+  all:
+    - pythia-70m
+    - pythia-160m
+    - pythia-410m
+    - pythia-1b
+    - phi-2
+    - llama-2-7b
+    - mistral-7b
+    - llama-2-13b
+
+# Draft models for speculative decoding
+draft_models:
+  llama-2-7b: pythia-160m
+  llama-2-13b: pythia-410m
+  mistral-7b: pythia-160m
+  pythia-1b: pythia-70m
+  pythia-410m: pythia-70m
